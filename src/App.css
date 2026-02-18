@@ -1,35 +1,11 @@
-/* App.css */
+/* App-level spacing and helpers */
 
-body {
-  margin: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f5f5f5;
-  color: #333;
+.app-main {
+  min-height: calc(100vh - 72px);
 }
 
-nav {
-  background-color: #282c34;
-  padding: 1rem;
-  color: white;
-}
+h1, h2, h3 { margin: 0 0 0.75rem 0; }
 
-nav a {
-  color: white;
-  margin: 0 15px;
-  text-decoration: none;
-  font-weight: 500;
-}
+.section { padding: 3rem 0; }
 
-nav a:hover {
-  text-decoration: underline;
-}
-
-h1 {
-  color: #222;
-}
-
-.container {
-  max-width: 900px;
-  margin: 2rem auto;
-  padding: 0 1rem;
-}
+.center { text-align: center; }
