@@ -1,11 +1,27 @@
 /* App-level spacing and helpers */
 
 .app-main {
-  min-height: calc(100vh - 72px);
+  min-height: calc(100vh - 88px);
 }
 
-h1, h2, h3 { margin: 0 0 0.75rem 0; }
+h1, h2, h3, h4 {
+  margin: 0 0 0.75rem 0;
+  font-family: var(--font-display);
+  line-height: 1.02;
+}
 
-.section { padding: 3rem 0; }
+.section {
+  padding: 5rem 0;
+}
 
-.center { text-align: center; }
+.center {
+  text-align: center;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+}
