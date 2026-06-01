@@ -1,9 +1,10 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Contact.css';
 
 const EMAILJS_SERVICE_ID = process.env.REACT_APP_EMAILJS_SERVICE_ID;
 const EMAILJS_TEMPLATE_ID = process.env.REACT_APP_EMAILJS_TEMPLATE_ID;
 const EMAILJS_PUBLIC_KEY = process.env.REACT_APP_EMAILJS_PUBLIC_KEY;
+const USE_API_PROXY = process.env.REACT_APP_USE_API_PROXY === 'true';
 
 function Contact() {
   const email = 'amritsr2005@gmail.com';
@@ -18,11 +19,6 @@ function Contact() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const isConfigured = useMemo(
-    () => Boolean(EMAILJS_SERVICE_ID && EMAILJS_TEMPLATE_ID && EMAILJS_PUBLIC_KEY),
-    []
-  );
-
   useEffect(() => {
     if (!status.message) {
       return undefined;
@@ -30,7 +26,7 @@ function Contact() {
 
     const timer = window.setTimeout(() => {
       setStatus({ type: '', message: '' });
-    }, 3200);
+    }, 4000);
 
     return () => window.clearTimeout(timer);
   }, [status]);
@@ -43,58 +39,64 @@ function Contact() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!isConfigured) {
-      setStatus({
-        type: 'error',
-        message: 'EmailJS is not configured yet. Add your EmailJS keys to enable this form.',
-      });
-      return;
-    }
-
     setIsSubmitting(true);
     setStatus({ type: '', message: '' });
 
     try {
-      const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          service_id: EMAILJS_SERVICE_ID,
-          template_id: EMAILJS_TEMPLATE_ID,
-          user_id: EMAILJS_PUBLIC_KEY,
-          template_params: {
+      let response;
+      const hasClientKeys = Boolean(EMAILJS_SERVICE_ID && EMAILJS_TEMPLATE_ID && EMAILJS_PUBLIC_KEY);
+
+      if (hasClientKeys && !USE_API_PROXY) {
+        response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            service_id: EMAILJS_SERVICE_ID,
+            template_id: EMAILJS_TEMPLATE_ID,
+            user_id: EMAILJS_PUBLIC_KEY,
+            template_params: {
+              name: formData.name,
+              email: formData.email,
+              title: `Portfolio inquiry from ${formData.name}`,
+              time: new Date().toLocaleString(),
+              from_name: formData.name,
+              from_email: formData.email,
+              message: formData.message,
+              to_email: email,
+              reply_to: formData.email,
+              subject: `Portfolio inquiry from ${formData.name}`,
+            },
+          }),
+        });
+      } else {
+        response = await fetch('/api/send-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
             name: formData.name,
             email: formData.email,
-            title: `Portfolio inquiry from ${formData.name}`,
-            time: new Date().toLocaleString(),
-            from_name: formData.name,
-            from_email: formData.email,
             message: formData.message,
-            to_email: email,
-            reply_to: formData.email,
-            subject: `Portfolio inquiry from ${formData.name}`,
-          },
-        }),
-      });
+          }),
+        });
+      }
 
       if (!response.ok) {
         const errorText = await response.text();
-        throw new Error(errorText || 'Unable to send message right now.');
+        throw new Error(errorText || 'Server responded with an error status.');
       }
 
       setFormData({ name: '', email: '', message: '' });
       setStatus({
         type: 'success',
-        message: 'Message sent successfully.',
+        message: 'Message sent successfully. I will get back to you soon!',
       });
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Unknown EmailJS error';
-      console.error('EmailJS send failed:', errorMessage);
+      console.error('Email send failed:', error);
       setStatus({
         type: 'error',
-        message: `Message could not be sent. ${errorMessage}`,
+        message: 'Message delivery failed. Please verify your Vercel Dashboard env vars are configured, or email me directly.',
       });
     } finally {
       setIsSubmitting(false);
@@ -130,7 +132,7 @@ function Contact() {
 
           <div className="contact-card card animate-up" style={{ animationDelay: '100ms' }}>
             <h3>Send a quick message</h3>
-            <p className="contact-note">Messages are sent directly to my inbox through EmailJS.</p>
+            <p className="contact-note">Form automatically routes to my inbox through EmailJS.</p>
             <form onSubmit={handleSubmit}>
               <input type="text" name="name" placeholder="Your Name" required value={formData.name} onChange={handleChange} />
               <input type="email" name="email" placeholder="Your Email" required value={formData.email} onChange={handleChange} />
@@ -143,7 +145,7 @@ function Contact() {
                 onChange={handleChange}
               />
               <button type="submit" className="btn" disabled={isSubmitting}>
-                {isSubmitting ? 'Sending...' : 'Send via Email'}
+                {isSubmitting ? 'Sending...' : 'Send Message'}
               </button>
             </form>
           </div>

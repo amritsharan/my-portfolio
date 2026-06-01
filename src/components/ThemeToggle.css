@@ -2,18 +2,29 @@
   background: var(--surface-soft);
   border: 1px solid var(--border);
   color: var(--text);
-  font-size: 0.82rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
   cursor: pointer;
-  padding: 0.7rem 0.95rem;
-  border-radius: 999px;
-  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+  padding: 0.65rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 40px;
+  height: 40px;
+  outline: none;
 }
 
 .theme-toggle:hover {
-  transform: translateY(-1px);
-  background: var(--accent-soft);
-  border-color: color-mix(in srgb, var(--accent) 24%, var(--border));
+  transform: scale(1.08);
+  background: var(--surface);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.toggle-svg {
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.theme-toggle:hover .toggle-svg {
+  transform: rotate(30deg);
 }

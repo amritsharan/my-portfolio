@@ -1,33 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
 :root {
-  --bg: #f6efe6;
-  --bg-gradient:
-    radial-gradient(circle at top left, rgba(230, 162, 85, 0.24), transparent 30%),
-    radial-gradient(circle at right 20%, rgba(30, 106, 122, 0.18), transparent 26%),
-    linear-gradient(180deg, #f7f1e8 0%, #efe7dc 52%, #f7f4ed 100%);
-  --surface: rgba(255, 252, 247, 0.8);
-  --surface-strong: #fffaf3;
-  --surface-soft: rgba(255, 250, 243, 0.58);
-  --muted: #655f58;
-  --text: #1f1b18;
-  --accent: #c94e26;
-  --accent-2: #0f766e;
-  --accent-soft: rgba(201, 78, 38, 0.12);
-  --border: rgba(56, 44, 32, 0.12);
-  --radius: 24px;
-  --card-shadow: 0 24px 70px rgba(72, 44, 24, 0.1);
-  --max-width: 1180px;
-  --font-body: 'DM Sans', 'Segoe UI', sans-serif;
-  --font-display: 'Space Grotesk', 'Segoe UI', sans-serif;
+  --bg: #f8f9fa;
+  --bg-gradient: 
+    radial-gradient(circle at 0% 0%, rgba(99, 102, 241, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 100% 0%, rgba(244, 63, 94, 0.06) 0%, transparent 40%),
+    radial-gradient(circle at 100% 100%, rgba(14, 165, 233, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 0% 100%, rgba(236, 72, 153, 0.05) 0%, transparent 40%),
+    #fafafa;
+  --surface: rgba(255, 255, 255, 0.7);
+  --surface-strong: #ffffff;
+  --surface-soft: rgba(255, 255, 255, 0.4);
+  --muted: #64748b;
+  --text: #0f172a;
+  --accent: #4f46e5;
+  --accent-2: #06b6d4;
+  --accent-soft: rgba(79, 70, 229, 0.08);
+  --border: rgba(226, 232, 240, 0.8);
+  --radius: 20px;
+  --card-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.01);
+  --hover-shadow: 0 20px 40px -15px rgba(79, 70, 229, 0.15);
+  --max-width: 1200px;
+  --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+:root.dark,
+.dark {
+  --bg: #090a10;
+  --bg-gradient: 
+    radial-gradient(circle at 0% 0%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 100% 0%, rgba(244, 63, 94, 0.1) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(14, 165, 233, 0.08) 0%, transparent 50%),
+    #05060b;
+  --surface: rgba(15, 17, 28, 0.75);
+  --surface-strong: #0d0f18;
+  --surface-soft: rgba(15, 17, 28, 0.45);
+  --muted: #94a3b8;
+  --text: #f1f5f9;
+  --accent: #818cf8;
+  --accent-2: #22d3ee;
+  --accent-soft: rgba(129, 140, 248, 0.15);
+  --border: rgba(255, 255, 255, 0.06);
+  --card-shadow: 0 15px 35px -12px rgba(0, 0, 0, 0.5);
+  --hover-shadow: 0 25px 50px -12px rgba(129, 140, 248, 0.25);
 }
 
 * {
   box-sizing: border-box;
-}
-
-html,
-body,
-#root {
-  height: 100%;
+  margin: 0;
+  padding: 0;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 html {
@@ -35,180 +58,157 @@ html {
 }
 
 body {
-  margin: 0;
   font-family: var(--font-body);
   background-color: var(--bg);
-  background: var(--bg-gradient);
+  background-image: var(--bg-gradient);
   color: var(--text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  line-height: 1.6;
+  line-height: 1.625;
+  overflow-x: hidden;
 }
 
-body::before,
-body::after {
-  content: '';
-  position: fixed;
-  inset: auto;
-  pointer-events: none;
-  z-index: -1;
-  filter: blur(4px);
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
 }
-
-body::before {
-  top: 110px;
-  right: -80px;
-  width: 260px;
-  height: 260px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(201, 78, 38, 0.18), transparent 68%);
+::-webkit-scrollbar-track {
+  background: var(--bg);
 }
-
-body::after {
-  left: -120px;
-  bottom: 8%;
-  width: 320px;
-  height: 320px;
-  border-radius: 38% 62% 61% 39% / 41% 36% 64% 59%;
-  background: radial-gradient(circle, rgba(15, 118, 110, 0.18), transparent 70%);
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
 }
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
 }
 
 .container {
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: 0 1.25rem;
+  padding: 0 2rem;
 }
 
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1.25rem;
+  }
+}
+
+/* Typography elements */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+/* Buttons */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.6rem;
-  padding: 0.95rem 1.35rem;
-  background: linear-gradient(135deg, var(--accent), #dd6f2f);
-  color: white;
-  border: none;
-  border-radius: 999px;
-  text-decoration: none;
+  gap: 0.5rem;
+  padding: 0.8rem 1.6rem;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
   font-weight: 600;
-  letter-spacing: 0.01em;
-  box-shadow: 0 14px 35px rgba(201, 78, 38, 0.24);
-  transition: transform 220ms ease, box-shadow 220ms ease, background 220ms ease;
+  border-radius: 12px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: #ffffff;
+  box-shadow: 0 4px 14px 0 rgba(79, 70, 229, 0.25);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 20px 45px rgba(201, 78, 38, 0.24);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px 0 rgba(79, 70, 229, 0.35);
+}
+
+.btn:active {
+  transform: translateY(0);
 }
 
 .btn-secondary {
-  background: transparent;
+  background: var(--surface-soft);
   color: var(--text);
   border: 1px solid var(--border);
   box-shadow: none;
 }
 
 .btn-secondary:hover {
-  background: var(--surface-soft);
-  box-shadow: none;
+  background: var(--surface);
+  border-color: var(--accent);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
+/* Cards */
 .card {
   background: var(--surface);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
   border-radius: var(--radius);
   box-shadow: var(--card-shadow);
-  padding: 1.5rem;
-  border: 1px solid var(--border);
-  backdrop-filter: blur(18px);
-  position: relative;
-  overflow: hidden;
+  padding: 2rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.card::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.24), transparent 45%);
-  pointer-events: none;
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--hover-shadow);
+  border-color: rgba(79, 70, 229, 0.25);
 }
 
 .muted {
   color: var(--muted);
 }
 
+/* Eyebrows */
 .eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.45rem 0.75rem;
-  border-radius: 999px;
-  font-size: 0.76rem;
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 0.75rem;
   font-weight: 700;
-  letter-spacing: 0.12em;
   text-transform: uppercase;
+  letter-spacing: 0.1em;
   color: var(--accent);
-  background: rgba(201, 78, 38, 0.08);
+  background: var(--accent-soft);
+  padding: 0.35rem 0.8rem;
+  border-radius: 99px;
+  margin-bottom: 1rem;
 }
 
-@media (max-width: 720px) {
-  .container {
-    padding: 0 1rem;
-  }
-}
-
-:root.dark,
-.dark {
-  --bg: #161311;
-  --bg-gradient:
-    radial-gradient(circle at top left, rgba(222, 119, 67, 0.18), transparent 30%),
-    radial-gradient(circle at right 25%, rgba(46, 162, 171, 0.16), transparent 24%),
-    linear-gradient(180deg, #161311 0%, #1d1916 45%, #12100f 100%);
-  --surface: rgba(26, 22, 20, 0.84);
-  --surface-strong: #211c18;
-  --surface-soft: rgba(255, 245, 235, 0.06);
-  --muted: #c1b3a5;
-  --text: #f8f1e8;
-  --accent: #f28f5b;
-  --accent-2: #58b4b0;
-  --accent-soft: rgba(242, 143, 91, 0.14);
-  --border: rgba(255, 240, 224, 0.12);
-  --card-shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
-}
-
+/* Animations */
 .animate-up {
-  animation: fadeUp 420ms cubic-bezier(.2, .9, .3, 1) both;
   opacity: 0;
+  animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .animate-soft {
-  animation: floatIn 700ms cubic-bezier(.2, .8, .2, 1) both;
   opacity: 0;
+  animation: fadeIn 0.8s ease forwards;
 }
 
-@keyframes fadeUp {
+@keyframes slideUp {
   from {
-    transform: translateY(12px);
     opacity: 0;
+    transform: translateY(20px);
   }
-
   to {
-    transform: translateY(0);
     opacity: 1;
+    transform: translateY(0);
   }
 }
 
-@keyframes floatIn {
+@keyframes fadeIn {
   from {
-    transform: translateY(20px) scale(0.98);
     opacity: 0;
   }
-
   to {
-    transform: translateY(0) scale(1);
     opacity: 1;
   }
 }
