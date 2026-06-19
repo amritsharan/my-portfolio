@@ -8,9 +8,9 @@ export default async function handler(req, res) {
     const { name, email, message } = req.body || {};
 
     const payload = {
-      service_id: process.env.EMAILJS_SERVICE_ID,
-      template_id: process.env.EMAILJS_TEMPLATE_ID,
-      user_id: process.env.EMAILJS_PUBLIC_KEY,
+      service_id: process.env.EMAILJS_SERVICE_ID || 'service_lqbw94v',
+      template_id: process.env.EMAILJS_TEMPLATE_ID || 'template_q5ynllp',
+      user_id: process.env.EMAILJS_PUBLIC_KEY || '36CwI-o8XNcVcQ9m5',
       template_params: {
         name,
         email,
